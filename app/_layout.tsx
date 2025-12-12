@@ -1,24 +1,25 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+// app/_layout.tsx
+import React from 'react';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { SafeAreaView, StatusBar } from 'react-native';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    // Зазвичай, SafeAreaView найкраще використовувати в самому компоненті, 
+    // але для верхнього рівня його можна залишити.
+    // Також додамо StatusBar для кращого вигляду
+    <SafeAreaView style={{ flex: 1 }}> 
+      <StatusBar barStyle="dark-content" />
+      {/* 💡 Виправлення: Stack управляє навігацією та відображає правильний маршрут.
+        Користувач почне з app/index.tsx (маршрут /).
+      */}
+      <Stack
+        screenOptions={{
+          headerShown: false, // Приховати стандартний заголовок Stack
+        }}
+      >
+        {/* Додаткові налаштування тут */}
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </SafeAreaView>
   );
 }
