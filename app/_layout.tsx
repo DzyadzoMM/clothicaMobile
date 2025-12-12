@@ -1,24 +1,32 @@
 // app/_layout.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { SafeAreaView, StatusBar } from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { useLoadedFonts } from '../hooks/useLoadedFonts';
+
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  
+  const { fontsLoaded, error } = useLoadedFonts(); 
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
+
+  if (!fontsLoaded) {
+    return null; 
+  }
+
   return (
-    // Зазвичай, SafeAreaView найкраще використовувати в самому компоненті, 
-    // але для верхнього рівня його можна залишити.
-    // Також додамо StatusBar для кращого вигляду
     <SafeAreaView style={{ flex: 1 }}> 
       <StatusBar barStyle="dark-content" />
-      {/* 💡 Виправлення: Stack управляє навігацією та відображає правильний маршрут.
-        Користувач почне з app/index.tsx (маршрут /).
-      */}
       <Stack
         screenOptions={{
-          headerShown: false, // Приховати стандартний заголовок Stack
+          headerShown: false, 
         }}
       >
-        {/* Додаткові налаштування тут */}
       </Stack>
     </SafeAreaView>
   );
