@@ -16,6 +16,7 @@ export default StyleSheet.create({
     gap: 5,
   },
   title:{
+    fontFamily: 'Inter-BoldI',
     fontSize: 24,
     textAlign:'center',
   },
